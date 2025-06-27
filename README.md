@@ -167,7 +167,7 @@ Sistemul folosește o arhitectură în trei niveluri:
 - **Backend:** Java cu servlets
 - **Baza de date:** PostgreSQL cu JDBC pentru persistența datelor
 
-—--
+---
 
 ## 6. Videoclip prezentare
 
