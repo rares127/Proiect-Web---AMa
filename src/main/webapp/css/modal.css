@@ -1,0 +1,55 @@
+.modal, .abbreviation-detail-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 2000; /* Base z-index, será sobrescris de Modal Manager */
+}
+
+.modal.active, .abbreviation-detail-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    cursor: pointer;
+}
+
+.modal-content, .abbreviation-detail-content {
+    position: relative;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: translateY(20px) scale(0.95);
+    transition: transform 0.3s ease;
+    z-index: 1;
+}
+
+.modal.active .modal-content, .abbreviation-detail-modal.active .abbreviation-detail-content {
+    transform: translateY(0) scale(1);
+}
+
+body.modal-open {
+            overflow: hidden;
+}
+
+.modal.active + .modal.active, .abbreviation-detail-modal.active + .modal.active {
+    background: rgba(0, 0, 0, 0.8);
+}

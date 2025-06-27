@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMa - Abbreviation Management</title>
+    <link rel="alternate" type="application/rss+xml" title="AMa - Abrevieri Populare" href="/ama/api/rss/popular-abbreviations">
+
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/abbreviations.css">
+    <link rel="stylesheet" href="css/search.css">
+    <link rel="stylesheet" href="css/dropdown.css">
+    <link rel="stylesheet" href="css/buttons.css">
+    <link rel="stylesheet" href="css/abbreviation-modal.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <link rel="stylesheet" href="css/export.css">
+
+</head>
+<body>
+<!-- Header -->
+<header class="header">
+    <div class="container">
+        <div class="header-content">
+            <div>
+                <div class="logo">AMa</div>
+                <p>Abbreviation Management System</p>
+            </div>
+            <div class="user-menu" id="userMenu">
+                <span id="userInfo" class="user-info"></span>
+                <button class="btn btn-danger btn-small" id="logoutBtn">Deconectare</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<nav class="nav" id="mainNav">
+    <a href="#" class="nav-item" data-page="dashboard">Dashboard</a>
+    <a href="#" class="nav-item" data-page="search">Căutare</a>
+    <a href="#" class="nav-item" data-page="manage">Gestionare</a>
+</nav>
+
+<main class="main">
+    <div class="container">
+        <!-- Auth-->
+        <div id="authPage" class="page active">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h2 class="auth-title">AMa</h2>
+                    <p class="text-center mb-20" style="color: #666; margin-bottom: 20px;">Abbreviation Management System</p>
+                    <form id="loginForm" class="auth-form">
+                        <div class="form-group">
+                            <label for="username">Utilizator/Email</label>
+                            <input type="text" id="username" name="username" placeholder="Introduceți numele de utilizator sau email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Parolă</label>
+                            <input type="password" id="password" name="password" placeholder="Introduceți parola" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Conectare</button>
+                        <button type="button" class="btn btn-secondary" id="showRegisterBtn">Înregistrare</button>
+                        <div class="auth-divider">
+                            <span>sau</span>
+                        </div>
+                        <button type="button" class="btn btn-outline" id="continueAsGuestBtn">
+                            Continuă ca vizitator
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div id="dashboardPage" class="page">
+            <div class="app-container">
+                <div class="header">
+                    <h1>Explorare Abrevieri</h1>
+                    <p>Descoperă și caută prin colecția de abrevieri</p>
+                </div>
+                <div class="grid grid-4 mb-20">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalAbbreviations">0</div>
+                        <div>Total abrevieri</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalLanguages">0</div>
+                        <div>Limbi disponibile</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalDomains">0</div>
+                        <div>Domenii acoperite</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="userContributions">0</div>
+                        <div>Contribuțiile mele</div>
+                    </div>
+                </div>
+
+                <!--Export statistici + RSS -->
+                <div class="statistics-export-section">
+                    <div class="export-header">
+                        <h3>Export & Flux RSS</h3>
+                        <p>Generează rapoarte și accesează flux RSS</p>
+                    </div>
+
+                    <div class="export-buttons-triple">
+                        <button class="btn-export-stats" onclick="window.Export.exportStatistics('csv')" title="Exportă statistici în format CSV pentru Excel/analiză">
+                            <span class="export-icon">📄</span>
+                            <span class="export-label">Raport CSV</span>
+                        </button>
+                        <button class="btn-export-stats" onclick="window.Export.exportStatistics('pdf')" title="Generează raport PDF pentru printare">
+                            <span class="export-icon">📕</span>
+                            <span class="export-label">Raport PDF</span>
+                        </button>
+                        <button class="btn-export-stats btn-rss" onclick="window.open('/ama/api/rss/popular-abbreviations?view=xml', '_blank')" title="Deschide conținutul RSS ca XML în browser">
+                            <span class="export-icon">📡</span>
+                            <span class="export-label">Flux RSS</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="popularAbbreviations" class="grid grid-2"></div>
+            </div>
+        </div>
+
+        <!-- Search Page -->
+        <div id="searchPage" class="page">
+            <div class="app-container">
+                <div class="header">
+                    <h1>🔍 Căutare Avansată</h1>
+                    <p>Caută abrevieri după diverse criterii</p>
+                </div>
+                <div class="form-row mb-20">
+                    <div class="form-group">
+                        <label>Căutare:</label>
+                        <input type="text" id="searchInput" placeholder="Caută abreviere...">
+                    </div>
+                    <div class="form-group">
+                        <label>Limbă:</label>
+                        <select id="languageFilter">
+                            <option value="">Se încarcă...</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row mb-20">
+                    <div class="form-group">
+                        <label>Domeniu:</label>
+                        <select id="domainFilter">
+                            <option value="">Se încarcă...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+
+                        <button id="clearSearch" class="btn btn-secondary">🗑️ Șterge filtrul</button>
+                    </div>
+                </div>
+
+                <div id="searchResults" class="grid grid-2">
+                    <div class="search-welcome" style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #666;">
+                        <div style="font-size: 3em; margin-bottom: 20px; opacity: 0.7;">🔍</div>
+                        <h3 style="margin-bottom: 10px; color: #333;">Căutare Abrevieri</h3>
+                        <p>Începe să cauți pentru a vedea rezultatele...</p>
+                        <p style="font-size: 0.9em; margin-top: 15px;">Poți căuta după abreviere, semnificație sau descriere</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagina de gestiune -->
+        <div id="managePage" class="page">
+            <div class="app-container">
+                <div class="manage-header">
+                    <h1>Gestionare Abrevieri</h1>
+                    <p>Creează, administrează și vizualizează abrevierile tale sau ale altor utilizatori!</p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="manage-actions">
+                    <button class="btn btn-primary" id="addAbbreviationBtn">
+                        <span>➕</span> Adaugă Abreviere
+                    </button>
+                    <button class="btn btn-secondary" id="viewMyAbbreviationsBtn">
+                        <span>👤</span> Propriile Abrevieri
+                    </button>
+                    <button class="btn btn-warning" id="viewFavoritesBtn">
+                        <span>⭐</span> Favorite
+                    </button>
+                    <button class="btn btn-info" id="viewAllAbbreviationsBtn">
+                        <span>🔍</span> Toate Abrevierile
+                    </button>
+                </div>
+
+                <!-- Filter Info -->
+                <div id="manageFilterInfo" class="manage-filter-info" style="display: none;">
+                    <span id="filterText"></span>
+                    <button class="btn btn-small btn-secondary" id="clearManageFilter">Afișează toate</button>
+                </div>
+
+                <!-- Abbreviations List -->
+                <div id="abbreviationsList" class="abbreviations-list">
+                    <div class="search-welcome" style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #666;">
+                        <h3 style="margin-bottom: 10px; color: #333;">Gestionare Abrevieri</h3>
+                        <p>Selectează o opțiune pentru a vedea abrevierile...</p>
+                        <p style="font-size: 0.9em; margin-top: 15px;">Propriile abrevieri, favorite sau toate abrevierile</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Modal add/editare abreviere -->
+<div id="abbreviationModal" class="modal">
+    <div class="modal-backdrop" onclick="ModalManager.closeModal('abbreviationModal')"></div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle">Adaugă Abreviere</h3>
+            <span class="modal-close" id="modalClose">&times;</span>
+        </div>
+        <form id="abbreviationForm" class="modal-form">
+            <div class="form-group">
+                <label for="abbreviation">Abreviere</label>
+                <input type="text" id="abbreviation" name="abbreviation" required>
+            </div>
+            <div class="form-group">
+                <label for="meaning">Semnificație</label>
+                <input type="text" id="meaning" name="meaning" required>
+            </div>
+            <div class="form-group">
+                <label for="language">Limbă</label>
+                <select id="language" name="language" required>
+                    <option value="ro">Română</option>
+                    <option value="en">Engleză</option>
+                    <option value="fr">Franceză</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="domain">Domeniu</label>
+                <select id="domain" name="domain" required>
+                    <option value="medical">Medical</option>
+                    <option value="tech">Tehnologie</option>
+                    <option value="business">Business</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="description">Descriere (opțional)</label>
+                <textarea id="description" name="description" rows="3"></textarea>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" id="cancelBtn">Anulează</button>
+                <button type="submit" class="btn btn-primary">Salvează</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+        <script src="js/modal-manager.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/auth.js"></script>
+        <script src="js/abbreviation-manager.js"></script>
+        <script src="js/dashboard.js"></script>
+        <script src="js/search.js"></script>
+        <script src="js/abbreviations.js"></script>
+        <script src="js/abbreviation-modal.js"></script>
+    <script src="js/export.js"></script>
+
+</body>
+</html>

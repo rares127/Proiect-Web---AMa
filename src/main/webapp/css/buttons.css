@@ -1,0 +1,298 @@
+.btn-like,
+.btn-favorite {
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid #e2e8f0;
+    color: var(--text-secondary);
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-width: 44px;
+    height: 36px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-like:hover,
+.btn-favorite:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background: rgba(255, 255, 255, 1);
+}
+
+.btn-like:active,
+.btn-favorite:active {
+    transform: translateY(0);
+    transition: transform 0.1s ease;
+}
+
+.btn-like {
+    border-color: #fbb6ce;
+}
+
+.btn-like:hover {
+    border-color: #f687b3;
+    color: #e53e3e;
+    background: rgba(254, 242, 242, 1);
+}
+
+.btn-like.btn-liked {
+    background: linear-gradient(135deg, #ff6b6b 0%, #e53e3e 100%);
+    border-color: #e53e3e;
+    color: white;
+    box-shadow: 0 4px 15px rgba(229, 62, 62, 0.3);
+}
+
+.btn-like.btn-liked:hover {
+    background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(229, 62, 62, 0.4);
+}
+
+.btn-like.btn-liked:active {
+    animation: heartBeat 0.6s ease;
+}
+
+.btn-favorite {
+    border-color: #faf089;
+}
+
+.btn-favorite:hover {
+    border-color: #f6e05e;
+    color: #d69e2e;
+    background: rgba(255, 251, 235, 1);
+}
+
+.btn-favorite.btn-favorited {
+    background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+    border-color: #ffb347;
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 179, 71, 0.3);
+}
+
+.btn-favorite.btn-favorited:hover {
+    background: linear-gradient(135deg, #ffb347 0%, #ff8c00 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 179, 71, 0.4);
+}
+
+.btn-favorite.btn-favorited:active {
+    animation: starPulse 0.6s ease;
+}
+
+.btn-like .icon {
+    font-size: 16px;
+    line-height: 1;
+}
+
+.btn-favorite .icon {
+    font-size: 16px;
+    line-height: 1;
+}
+
+/* animatii */
+@keyframes heartBeat {
+    0% {
+        transform: scale(1);
+    }
+    15% {
+        transform: scale(1.15);
+    }
+    30% {
+        transform: scale(1);
+    }
+    45% {
+        transform: scale(1.1);
+    }
+    60% {
+        transform: scale(1);
+    }
+}
+
+@keyframes starPulse {
+    0% {
+        transform: scale(1) rotate(0deg);
+    }
+    25% {
+        transform: scale(1.1) rotate(5deg);
+    }
+    50% {
+        transform: scale(1.15) rotate(0deg);
+    }
+    75% {
+        transform: scale(1.05) rotate(-3deg);
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+.btn-like::before,
+.btn-favorite::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-like:active::before {
+    width: 300px;
+    height: 300px;
+    background: rgba(229, 62, 62, 0.2);
+}
+
+.btn-favorite:active::before {
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 179, 71, 0.2);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.btn-like.btn-small,
+.btn-favorite.btn-small {
+    padding: 6px 10px;
+    font-size: 12px;
+    min-width: 36px;
+    height: 30px;
+    gap: 4px;
+}
+
+.btn-like.btn-small .icon,
+.btn-favorite.btn-small .icon {
+    font-size: 14px;
+}
+
+.btn-like:disabled,
+.btn-favorite:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+    pointer-events: none;
+}
+
+.btn-like .count,
+.btn-favorite .count {
+    font-size: 0.85em;
+    font-weight: 600;
+    margin-left: 2px;
+}
+
+/* Loading state pentru butoane */
+.btn-like.loading,
+.btn-favorite.loading {
+    pointer-events: none;
+    position: relative;
+}
+
+.btn-like.loading::after,
+.btn-favorite.loading::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.popular-item .action-buttons,
+.search-result-card .action-buttons,
+.abbreviation-item .action-buttons {
+    margin-left: auto;
+}
+
+.popular-item .btn-like,
+.popular-item .btn-favorite {
+    padding: 4px 8px;
+    font-size: 11px;
+    min-width: 32px;
+    height: 26px;
+}
+
+.search-result-card .btn-like,
+.search-result-card .btn-favorite {
+    padding: 6px 10px;
+    font-size: 13px;
+    min-width: 38px;
+    height: 32px;
+}
+
+/* Hover effects pentru containerele de abrevieri */
+.popular-item:hover .action-buttons,
+.search-result-card:hover .action-buttons,
+.abbreviation-item:hover .action-buttons {
+    opacity: 1;
+}
+
+.action-buttons {
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .action-buttons {
+        gap: 6px;
+    }
+
+    .btn-like,
+    .btn-favorite {
+        padding: 6px 8px;
+        font-size: 13px;
+        min-width: 38px;
+        height: 32px;
+    }
+
+    .popular-item .btn-like,
+    .popular-item .btn-favorite {
+        padding: 4px 6px;
+        font-size: 10px;
+        min-width: 28px;
+        height: 24px;
+    }
+
+    .btn-like .icon,
+    .btn-favorite .icon {
+        font-size: 14px;
+    }
+
+    .popular-item .btn-like .icon,
+    .popular-item .btn-favorite .icon {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .action-buttons {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .btn-like,
+    .btn-favorite {
+        width: 100%;
+        min-width: auto;
+    }
+}
