@@ -8,8 +8,9 @@
 1. [Introducere](#1-introducere)
 2. [Descrierea generală](#2-descrierea-generală)
 3. [Funcționalitățile sistemului](#3-funcționalitățile-sistemului)
-4. [Cerințe non-funcționale](#5-cerințe-non-funcționale)
-5. [Constrângeri tehnice](#6-constrângeri-tehnice)
+4. [Cerințe non-funcționale](#4-cerințe-non-funcționale)
+5. [Constrângeri tehnice](#5-constrângeri-tehnice)
+6. [Videoclip prezentare](#6-videoclio-prezentare)
 
 ---
 
@@ -165,6 +166,12 @@ Sistemul folosește o arhitectură în trei niveluri:
 - **Frontend:** HTML, CSS, JavaScript vanilla (fără framework-uri)
 - **Backend:** Java cu servlets
 - **Baza de date:** PostgreSQL cu JDBC pentru persistența datelor
+
+—
+
+## 6. Videoclip prezentare
+
+### 6.1 https://www.youtube.com/watch?v=-pKjEUIVVD0
 
 ---
 
